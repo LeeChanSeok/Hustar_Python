@@ -68,26 +68,80 @@ def print_Table(sub_stu_dict):
     print_Students(sub_stu_dict)
 
 
+'''
+(기능)
+     성적 관리 프로그램은 아래와 같은 기능을 가진다.
+     명시된 7가지 명령어 외의 명령어가 입력될 경우 무시하고 다시 명령어 입력을 대기한다.
+'''
 #기능 관련 함수들
 
+'''
+ 1. show (전체 학생 정보 출력)
+      show 입력 시, 저장되어 있는 전체 목록을 아래와 같이 평균 점수를 기준으로 내림차순으로 출력한다. 
+     평균 점수는 소수점 이하 첫째 자리까지만 표시한다.
+'''
 # 1. show (전체 학생 정보 출력)
 # 입력받은 dict에 저장된 Student 정보들을 출력한다.
 def Show(stu_dict):
     print_Table(stu_dict)
 
+'''
+ 2. search (특정 학생 검색)
+      search 입력 시, 아래와 같이 검색하고자 하는 학생의 학번을 요구해 입력 받아 학번,
+     이름, 중간고사 점수, 기말고사 점수, 평균, 학점을 출력한다.
+      예외처리:
+      찾고자 하는 학생이 목록에 없는 경우에는 “NO SUCH PERSON.” 이라는 에러 메시지를 출력
+'''
+
+# 학번을 입력받아 예외처리하는 기능이 자주 사용됨으로 하나의 함수로 만들어 재사용성을 높이려 하였다.
+# 학번을 입력받아 학생 딕셔너리에 존재하면 학번을 return 하고 아니면 None 을 return 한다.
+def InputStuID(stu_dict):
+    stu_ID = input("Student ID: ")
+
+    if stu_ID not in stu_dict:
+        return
+    return stu_ID
+
 # 2. search (특정 학생 검색)
 # 입력받은 아이디에 해당하는 학생이 있는 경우, 해당 아아디를 Key값으로 학생의 정보를 담은 딕셔너리를 만든다.
 # 이 딕셔너리를 기존에 학생정보를 출력하기 위해 만들었던 함수에 매개변수로 전달하여 학생정보를 출력한다.
 def Search(stu_dict):
-    stu_ID = input("Student ID: ")
-
-    if stu_ID not in stu_dict:
-        print("NO SUCH PERSON.")
+    stu_ID = InputStuID(stu_dict)
+    if stu_ID == None:
+        print("No SUCH PERSON.")
         return
 
     student = {}
     student[stu_ID] = stu_dict[stu_ID]
     print_Table(student)
+
+'''
+3. changescore (점수 수정)
+     목록에 저장된 학생 중 1명의 중간고사(mid) 혹은 기말고사(final)의 점수를 수정한다.
+     changescore 입력 시, 수정하고자 하는 학생의 학번, 수정하고자 하는 점수가
+    중간고사인지 기말고사인지와 수정하고자 하는 점수를 순서대로 입력 받아 해당 학생의 점수를 수정한다.
+     점수가 바뀜에 따라 Grade도 다시 계산하여 수정한다.
+     예외처리:
+         학번이 목록에 없는 경우에는 “NO SUCH PERSON.”이라는 에러 메시지를 출력
+         “mid” 또는 “final” 외의 값이 입력된 경우에는 실행되지 않음
+         점수에 0~100 외의 값이 입력된 경우에는 실행되지 않음
+'''
+# 3. changescore (점수 수정)
+
+def ChangeScore(stu_dict):
+
+    # 학번을 입력받아 예외처리하는 기능은 Search에서와 같으므로 이를 함수로 만들어서 재사용성을 높이려 하였다.
+    # InputStuID(stu_dict)
+
+    stu_ID = InputStuID(stu_dict)
+    # 학번이 목록에 없는 경우에는 “NO SUCH PERSON.”이라는 에러 메시지를 출력
+    if stu_ID == None:
+        print("No SUCH PERSON.")
+        return
+
+
+
+
 
 ##################################################################
 
@@ -176,28 +230,30 @@ def main():
             continue
 
         '''
-        (기능)
-             성적 관리 프로그램은 아래와 같은 기능을 가진다.
-             명시된 7가지 명령어 외의 명령어가 입력될 경우 무시하고 다시 명령어 입력을 대기한다.
-        '''
-
-        '''
-        1. show (전체 학생 정보 출력)
-             show 입력 시, 저장되어 있는 전체 목록을 아래와 같이 평균 점수를 기준으로 내림차순으로 출력한다. 
-            평균 점수는 소수점 이하 첫째 자리까지만 표시한다.
-        '''
-        '''
+        (기능) 
+        1. show (전체 학생 정보 출력) 
         2. search (특정 학생 검색)
-             search 입력 시, 아래와 같이 검색하고자 하는 학생의 학번을 요구해 입력 받아 학번,
-            이름, 중간고사 점수, 기말고사 점수, 평균, 학점을 출력한다.
-             예외처리:
-             찾고자 하는 학생이 목록에 없는 경우에는 “NO SUCH PERSON.” 이라는 에러 메시지를 출력
+        3. changescore (점수 수정)
         '''
 
         if command == 'show':
             Show(stu_dict)
         elif command == 'search':
             Search(stu_dict)
+        elif command == 'changescore':
+            ChangeScore(stu_dict)
+
+        '''
+        (기능) 
+        1. show (전체 학생 정보 출력) 
+        2. search (특정 학생 검색) 
+        '''
+
+        if command == 'show':
+            Show(stu_dict)
+        elif command == 'search':
+            Search(stu_dict)
+
 
 # main함수가 있으면 main함수를 실행한다.
 if __name__ == "__main__":
