@@ -129,8 +129,6 @@ def Search(stu_dict):
 # 3. changescore (점수 수정)
 
 def ChangeScore(stu_dict):
-
-    # 학번을 입력받아 예외처리하는 기능은 Search에서와 같으므로 이를 함수로 만들어서 재사용성을 높이려 하였다.
     # InputStuID(stu_dict)
 
     stu_ID = InputStuID(stu_dict)
@@ -139,9 +137,37 @@ def ChangeScore(stu_dict):
         print("No SUCH PERSON.")
         return
 
+    Term_List = {'mid' : 1, 'final' : 2}
+    term = input("Mid/Final? ").lower()
 
+    # “mid” 또는 “final” 외의 값이 입력된 경우에는 실행되지 않음
+    if term not in Term_List:
+        return
+    # 점수에 0~100 외의 값이 입력된 경우에는 실행되지 않음
+    score = int(input("Input new score: "))
+    if score < 0 or score > 100:
+        return
 
+    # 수정되기 전의 학생 정보를 출력하기 전에 딕셔너리에 현재의 값을 저장하고 출력한다
+    init_student = {}
+    init_student[stu_ID] = stu_dict[stu_ID]
+    print_Table(init_student)
+    print("Score changed.")
 
+    # 입력받은 점수가 해당하는 시험의 점수를 변경한다.
+    stu_dict[stu_ID][Term_List[term]] = score
+
+    # 수정된 점수를 바탕으로 평균과 grade를 구하여 업데이트 한다.
+    average = calc_average(stu_dict[stu_ID][1], stu_dict[stu_ID][2])
+    grade = calc_grade(average)
+
+    stu_dict[stu_ID][3] = average
+    stu_dict[stu_ID][4] = grade
+
+    # 변경된 학생 정보를 출력한다.
+    change_student = {}
+    change_student[stu_ID] = stu_dict[stu_ID]
+    print_Students(change_student)
 
 ##################################################################
 
@@ -223,7 +249,7 @@ def main():
     command_List = ['show', 'search', 'changescore', 'searchgrade', 'add', 'remove', 'quit']
     while True:
         # 명령어는 대소문자를 구분하지 않는다. 따라서, 입력받은 명령어를 모두 소문자로 바꾸었다.
-        command = input("# ").lower()
+        command = input("\n# ").lower()
 
         #잘못된 명령어 입력 시, 에러 메시지 없이 다시 명령어를 입력 받을 준비를 한다.
         if command not in command_List:
@@ -242,17 +268,6 @@ def main():
             Search(stu_dict)
         elif command == 'changescore':
             ChangeScore(stu_dict)
-
-        '''
-        (기능) 
-        1. show (전체 학생 정보 출력) 
-        2. search (특정 학생 검색) 
-        '''
-
-        if command == 'show':
-            Show(stu_dict)
-        elif command == 'search':
-            Search(stu_dict)
 
 
 # main함수가 있으면 main함수를 실행한다.
