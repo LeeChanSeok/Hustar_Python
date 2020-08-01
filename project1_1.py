@@ -15,8 +15,10 @@
 명시되어 있지 않은 세부사항에 대해서 처리한 방법, 이유 등을 보고서에 기록하도록 한다.
 '''
 
+import sys
+
 #함수 구현 부분
-##################################################################
+########################################################################################################################
 
 '''
  평균(Average)항목은 중간고사 점수와 기말고사 점수의 평균을 계산하여 저장한다.
@@ -26,7 +28,6 @@ def calc_average(mid_score, final_score):
     return (mid_score + final_score) / 2
 
 def calc_grade(average):
-
     grade = ''
 
     if average >= 90:
@@ -41,7 +42,6 @@ def calc_grade(average):
         grade = 'F'
 
     return grade
-
 
 '''
 전체 목록을 평균 점수를 기준으로 내림차순으로 정렬한다. 
@@ -67,14 +67,12 @@ def print_Table(sub_stu_dict):
     print_Header()
     print_Students(sub_stu_dict)
 
-
 '''
 (기능)
      성적 관리 프로그램은 아래와 같은 기능을 가진다.
      명시된 7가지 명령어 외의 명령어가 입력될 경우 무시하고 다시 명령어 입력을 대기한다.
 '''
 #기능 관련 함수들
-
 '''
  1. show (전체 학생 정보 출력)
       show 입력 시, 저장되어 있는 전체 목록을 아래와 같이 평균 점수를 기준으로 내림차순으로 출력한다. 
@@ -92,7 +90,6 @@ def Show(stu_dict):
       예외처리:
       찾고자 하는 학생이 목록에 없는 경우에는 “NO SUCH PERSON.” 이라는 에러 메시지를 출력
 '''
-
 # 학번을 입력받아 예외처리하는 기능이 자주 사용됨으로 하나의 함수로 만들어 재사용성을 높이려 하였다.
 # 학번을 입력받아 학생 딕셔너리에 존재하면 True, 존재하지 않으면 False 를 return 한다.
 def is_StuId(stu_Id, stu_dict):
@@ -165,7 +162,6 @@ def ChangeScore(stu_dict):
     change_student[stu_Id] = stu_dict[stu_Id]
     print_Students(change_student)
 
-
 '''
 4. add (학생 추가)
      add 입력 시, 아래와 같이 학생의 학번, 이름, 중간고사 점수, 기말고사 점수를 차례로 요구해 입력 받는다. 
@@ -204,7 +200,6 @@ def Add(stu_dict):
 '''
 # grade를 입력받아 해당 grade에 해당하는 학생 정보를 딕셔너리에 저장한다.
 def grade_student(grade, stu_dict):
-
     grade_student = {}
 
     for key, value in stu_dict.items():
@@ -239,7 +234,7 @@ def Searchgrade(stu_dict):
 '''
 # 6. REMOVE (특정 학생 삭제)
 def Remove(stu_dict):
-
+    # 목록에 아무도 없을 경우 아래의 예제와 같이 “List is empty.” 메시지 출력
     if len(stu_dict) == 0 :
         print("List is empty.")
         return
@@ -249,9 +244,9 @@ def Remove(stu_dict):
         print("No SUCH PERSON.")
         return
 
+    # 삭제하면, 메시지 “Student removed.”를 아래와 같이 출력한다.
     del(stu_dict[stu_Id])
     print("Student removed.")
-
 
 '''
 7. quit (종료)
@@ -278,8 +273,8 @@ def Quit(stu_dict):
             data = "%s\t%s\t%d\t%d\t\n" %(student[0], student[1][0], student[1][1], student[1][2])
             fw.write(data)
 
-##################################################################
-
+########################################################################################################################
+#함수 구현 완료
 '''
 (설명)
  프로그램 실행은 다음과 같이 한다. (실행예시에 밑줄로 표시된 문자는 사용자 입력에 해당)
@@ -292,7 +287,7 @@ def Quit(stu_dict):
  파일명에는 공백이 없다고 가정한다. (즉, 공백이 있는 파일명의 입력에 대해서는 고려하지 않는다.
 '''
 
-import sys
+
 
 def main():
     # $ python project1.py students.txt
@@ -302,7 +297,6 @@ def main():
         fileName = sys.argv[1]
     except:
         fileName = "students.txt"
-
 
     '''
     프로그램 실행 시 텍스트 파일로부터 학생들의 성적 목록 작성을 위한 데이터를 읽는다.
@@ -315,7 +309,6 @@ def main():
      전체 목록을 평균 점수를 기준으로 내림차순으로 정렬하여 아래의 예제처럼 출력한다. 
      동일한 평균 점수를 가진 학생들이 있는 경우 순서는 상관없다.
     '''
-
 
     #텍스트 파일로부터 읽은 데이터를 딕셔너리 자료형을 사용하여 저장한다.
     #학생의 학번은 고유한 값이므로 이를 딕셔너리의 Key 값으로 사용한다.
@@ -343,17 +336,6 @@ def main():
             student[stu_Id] = [stu_Name, midTerm_Score, finalTerm_Score, average, grade]
 
             stu_dict.update(student)
-            '''
-            stu_dict[stu_data[0]] = [stu_data[1]]
-            stu_dict[stu_data[0]].append(int(stu_data[2]))
-            stu_dict[stu_data[0]].append(int(stu_data[3]))
-
-            average = calc_average(stu_dict[stu_data[0]][1], stu_dict[stu_data[0]][2])
-            grade = calc_grade(average)
-
-            stu_dict[stu_data[0]].append(average)
-            stu_dict[stu_data[0]].append(grade)
-            '''
 
     print_Table(stu_dict)
 
@@ -366,7 +348,6 @@ def main():
     예를 들면, show, SHOW, Show, shoW 는 동일한 동작을 수행한다.
      7개의 명령어 이외의 잘못된 명령어 입력 시, 에러 메시지 없이 다시 명령어를 입력 받을 준비를 한다.
     '''
-
 
     # 사용자는 아래 7개의 명령어를 사용할 수 있다.
     command_List = ['show', 'search', 'changescore', 'searchgrade', 'add', 'remove', 'quit']
@@ -404,7 +385,6 @@ def main():
         elif command == 'quit':
             Quit(stu_dict)
             break
-
 
 # main함수가 있으면 main함수를 실행한다.
 if __name__ == "__main__":
