@@ -75,7 +75,19 @@ def print_Table(sub_stu_dict):
 def Show(stu_dict):
     print_Table(stu_dict)
 
+# 2. search (특정 학생 검색)
+# 입력받은 아이디에 해당하는 학생이 있는 경우, 해당 아아디를 Key값으로 학생의 정보를 담은 딕셔너리를 만든다.
+# 이 딕셔너리를 기존에 학생정보를 출력하기 위해 만들었던 함수에 매개변수로 전달하여 학생정보를 출력한다.
+def Search(stu_dict):
+    stu_ID = input("Student ID: ")
 
+    if stu_ID not in stu_dict:
+        print("NO SUCH PERSON.")
+        return
+
+    student = {}
+    student[stu_ID] = stu_dict[stu_ID]
+    print_Table(student)
 
 ##################################################################
 
@@ -174,10 +186,18 @@ def main():
              show 입력 시, 저장되어 있는 전체 목록을 아래와 같이 평균 점수를 기준으로 내림차순으로 출력한다. 
             평균 점수는 소수점 이하 첫째 자리까지만 표시한다.
         '''
+        '''
+        2. search (특정 학생 검색)
+             search 입력 시, 아래와 같이 검색하고자 하는 학생의 학번을 요구해 입력 받아 학번,
+            이름, 중간고사 점수, 기말고사 점수, 평균, 학점을 출력한다.
+             예외처리:
+             찾고자 하는 학생이 목록에 없는 경우에는 “NO SUCH PERSON.” 이라는 에러 메시지를 출력
+        '''
 
         if command == 'show':
             Show(stu_dict)
-
+        elif command == 'search':
+            Search(stu_dict)
 
 # main함수가 있으면 main함수를 실행한다.
 if __name__ == "__main__":
