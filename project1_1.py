@@ -95,7 +95,7 @@ def Show(stu_dict):
 
 # 학번을 입력받아 예외처리하는 기능이 자주 사용됨으로 하나의 함수로 만들어 재사용성을 높이려 하였다.
 # 학번을 입력받아 학생 딕셔너리에 존재하면 True, 존재하지 않으면 False 를 return 한다.
-def is_StuID(stu_Id, stu_dict):
+def is_StuId(stu_Id, stu_dict):
     if stu_Id not in stu_dict:
         return False
     return True
@@ -105,13 +105,13 @@ def is_StuID(stu_Id, stu_dict):
 # 이 딕셔너리를 기존에 학생정보를 출력하기 위해 만들었던 함수에 매개변수로 전달하여 학생정보를 출력한다.
 def Search(stu_dict):
 
-    stu_ID = input("Student ID: ")
-    if not is_StuID(stu_ID, stu_dict):
+    stu_Id = input("Student ID: ")
+    if not is_StuId(stu_Id, stu_dict):
         print("No SUCH PERSON.")
         return
 
     student = {}
-    student[stu_ID] = stu_dict[stu_ID]
+    student[stu_Id] = stu_dict[stu_Id]
     print_Table(student)
 
 '''
@@ -128,8 +128,8 @@ def Search(stu_dict):
 # 3. changescore (점수 수정)
 # 학번, 시험기간, 점수 에 대한 예외 처리 후 학생 점수를 수정하고 평균과 성적 또한 수정한다.
 def ChangeScore(stu_dict):
-    stu_ID = input("Student ID: ")
-    if not is_StuID(stu_ID, stu_dict):
+    stu_Id = input("Student ID: ")
+    if not is_StuId(stu_Id, stu_dict):
         print("No SUCH PERSON.")
         return
 
@@ -146,23 +146,23 @@ def ChangeScore(stu_dict):
 
     # 수정되기 전의 학생 정보를 출력하기 전에 딕셔너리에 현재의 값을 저장하고 출력한다
     init_student = {}
-    init_student[stu_ID] = stu_dict[stu_ID]
+    init_student[stu_Id] = stu_dict[stu_Id]
     print_Table(init_student)
     print("Score changed.")
 
     # 입력받은 점수가 해당하는 시험의 점수를 변경한다.
-    stu_dict[stu_ID][Term_List[term]] = score
+    stu_dict[stu_Id][Term_List[term]] = score
 
     # 수정된 점수를 바탕으로 평균과 grade를 구하여 업데이트 한다.
-    average = calc_average(stu_dict[stu_ID][1], stu_dict[stu_ID][2])
+    average = calc_average(stu_dict[stu_Id][1], stu_dict[stu_Id][2])
     grade = calc_grade(average)
 
-    stu_dict[stu_ID][3] = average
-    stu_dict[stu_ID][4] = grade
+    stu_dict[stu_Id][3] = average
+    stu_dict[stu_Id][4] = grade
 
     # 변경된 학생 정보를 출력한다.
     change_student = {}
-    change_student[stu_ID] = stu_dict[stu_ID]
+    change_student[stu_Id] = stu_dict[stu_Id]
     print_Students(change_student)
 
 
@@ -177,11 +177,24 @@ def ChangeScore(stu_dict):
 '''
 # 4. add(학생추가)
 def add(stu_dict):
-    stu_ID = InputStuID(stu_dict)
-    # 학번이 목록에 없는 경우에는 “NO SUCH PERSON.”이라는 에러 메시지를 출력
-    if stu_ID != None:
-        print("No SUCH PERSON.")
+    stu_Id = input("Student ID: ")
+    # 목록에 있는 학생의 학번을 입력 시, ‘ALREADY EXISTS.’ 이라는 에러 메시지 출력
+    if is_StuId(stu_Id, stu_dict):
+        print("ALREADY EXISTS")
         return
+
+    stu_Name = input("Name: ")
+    midTerm_Score = int(input("Midterm Score: "))
+    finalTerm_Score = int(input("Final Score: "))
+    average = calc_average(midTerm_Score, finalTerm_Score)
+    grade = calc_grade(average)
+
+    student = {}
+    student[stu_Id] = [stu_Name, midTerm_Score, finalTerm_Score, average, grade]
+
+    stu_dict.update(student)
+    print("Student added.")
+
 
 ##################################################################
 
