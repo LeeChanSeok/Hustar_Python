@@ -133,6 +133,26 @@ def main():
 
     print_Table(stu_dict)
 
+    '''
+    위와 같이 학생들의 성적 목록이 출력 된 후에는 명령어 입력을 대기하는 #표시가 뜨며,
+    이 상태에서 사용자는 명령어를 입력할 수 있다.
+     사용자는 7개의 명령어(show, search, changescore, searchgrade, add, remove, quit)를
+    사용할 수 있으며, 명령어를 입력하였을 때만 기능이 실행된다. 이 명령어는 사용자가 명령어 입력 시, 
+    대소문자를 구분하지 않고 동일한 명령어의 기능을 수행하도록 작성한다. 
+    예를 들면, show, SHOW, Show, shoW 는 동일한 동작을 수행한다.
+     7개의 명령어 이외의 잘못된 명령어 입력 시, 에러 메시지 없이 다시 명령어를 입력 받을 준비를 한다.
+    '''
+
+
+    # 사용자는 아래 7개의 명령어를 사용할 수 있다.
+    command_List = ['show', 'search', 'changescore', 'searchgrade', 'add', 'remove', 'quit']
+    while True:
+        # 명령어는 대소문자를 구분하지 않는다. 따라서, 입력받은 명령어를 모두 소문자로 바꾸었다.
+        command = input("# ").lower()
+
+        #잘못된 명령어 입력 시, 에러 메시지 없이 다시 명령어를 입력 받을 준비를 한다.
+        if command not in command_List:
+            continue
 
 
 
