@@ -176,7 +176,7 @@ def ChangeScore(stu_dict):
      목록에 있는 학생의 학번을 입력 시, ‘ALREADY EXISTS.’ 이라는 에러 메시지 출력
 '''
 # 4. add(학생추가)
-def add(stu_dict):
+def Add(stu_dict):
     stu_Id = input("Student ID: ")
     # 목록에 있는 학생의 학번을 입력 시, ‘ALREADY EXISTS.’ 이라는 에러 메시지 출력
     if is_StuId(stu_Id, stu_dict):
@@ -214,7 +214,7 @@ def grade_student(grade, stu_dict):
     return grade_student
 
 # 5. searchgrade (Grade 검색)
-def searchgrade(stu_dict):
+def Searchgrade(stu_dict):
     grade_List = ['A', 'B', 'C', 'D', 'F']
 
     grade = input("Grade to search : ")
@@ -238,7 +238,7 @@ def searchgrade(stu_dict):
      목록에 아무도 없을 경우 아래의 예제와 같이 “List is empty.” 메시지 출력
 '''
 # 6. REMOVE (특정 학생 삭제)
-def remove(stu_dict):
+def Remove(stu_dict):
 
     if len(stu_dict) == 0 :
         print("List is empty.")
@@ -251,6 +251,33 @@ def remove(stu_dict):
 
     del(stu_dict[stu_Id])
     print("Student removed.")
+
+
+'''
+7. quit (종료)
+     quit 입력 시, 프로그램을 종료한다.
+     해당 명령어를 실행할 경우, 현재까지 편집할 내용의 저장 여부를 묻고, 저장을 선택할 경우 파일명을 입력 받아서 저장하도록 한다. 
+    앞서 본 “students.txt”와 같이 내용을 구성한다.
+    [Student number][\t][Name][\t][Midterm][\t][Final][\n]
+     저장할 때 목록의 순서는 평균을 기준으로 내림차순으로 한다.
+     파일 이름에는 공백이 없다고 가정한다.
+'''
+# 7. quit (종료)
+def Quit(stu_dict):
+    save = input("Save data?[yes/no] ").lower()
+
+    if save != 'yes':
+        return
+
+    fileName = input("File name: ")
+
+    with open(fileName, "w") as fw:
+        sorted_s1 = sorted(stu_dict.items(), key=lambda a: a[1][3], reverse=True)
+
+        for student in sorted_s1:
+            data = "%s\t%s\t%d\t%d\t\n" %(student[0], student[1][0], student[1][1], student[1][2])
+            fw.write(data)
+
 ##################################################################
 
 '''
@@ -359,6 +386,7 @@ def main():
         4. add (학생 추가)
         5. searchgrade (Grade 검색)
         6. remove (특정 학생 삭제)
+        7. quit (종료)
         '''
 
         if command == 'show':
@@ -368,11 +396,14 @@ def main():
         elif command == 'changescore':
             ChangeScore(stu_dict)
         elif command == 'add':
-            add(stu_dict)
+            Add(stu_dict)
         elif command == 'searchgrade':
-            searchgrade(stu_dict)
+            Searchgrade(stu_dict)
         elif command == 'remove':
-            remove(stu_dict)
+            Remove(stu_dict)
+        elif command == 'quit':
+            Quit(stu_dict)
+            break
 
 
 # main함수가 있으면 main함수를 실행한다.
