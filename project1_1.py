@@ -68,6 +68,15 @@ def print_Table(sub_stu_dict):
     print_Students(sub_stu_dict)
 
 
+#기능 관련 함수들
+
+# 1. show (전체 학생 정보 출력)
+# 입력받은 dict에 저장된 Student 정보들을 출력한다.
+def Show(stu_dict):
+    print_Table(stu_dict)
+
+
+
 ##################################################################
 
 '''
@@ -154,6 +163,20 @@ def main():
         if command not in command_List:
             continue
 
+        '''
+        (기능)
+             성적 관리 프로그램은 아래와 같은 기능을 가진다.
+             명시된 7가지 명령어 외의 명령어가 입력될 경우 무시하고 다시 명령어 입력을 대기한다.
+        '''
+
+        '''
+        1. show (전체 학생 정보 출력)
+             show 입력 시, 저장되어 있는 전체 목록을 아래와 같이 평균 점수를 기준으로 내림차순으로 출력한다. 
+            평균 점수는 소수점 이하 첫째 자리까지만 표시한다.
+        '''
+
+        if command == 'show':
+            Show(stu_dict)
 
 
 # main함수가 있으면 main함수를 실행한다.
