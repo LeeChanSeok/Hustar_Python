@@ -42,6 +42,32 @@ def calc_grade(average):
 
     return grade
 
+
+'''
+전체 목록을 평균 점수를 기준으로 내림차순으로 정렬한다. 
+동일한 평균 점수를 가진 학생들이 있는 경우 순서는 상관없다.
+
+아래 함수는 학생들의 정보를 출력하기 위한 print 함수들이다.
+'''
+def print_Header():
+    show_List = ['Student', 'Name', 'Midterm', 'Final', 'Average', 'Grade']
+    print("%8s\t%15s\t\t%7s\t\t%5s\t\t%8s\t\t%5s" % (
+    show_List[0], show_List[1], show_List[2], show_List[3], show_List[4], show_List[5]))
+    print("-" * 80)
+
+def print_Students(sub_stu_dict):
+    #입력받은 학생 정보 딕셔너리에서 평균 점수( a[1][3])를 기준으로 내림차순(reverse=True)으로 정렬하여 List로 return한다
+    sorted_s1 = sorted(sub_stu_dict.items(), key=lambda a: a[1][3], reverse=True)
+
+    for stu_Info in sorted_s1:
+        print("%8s\t%15s\t\t%7s\t\t%5s\t\t%8s\t\t%5s" % (
+        stu_Info[0], stu_Info[1][0], stu_Info[1][1], stu_Info[1][2], stu_Info[1][3], stu_Info[1][4]))
+
+def print_Table(sub_stu_dict):
+    print_Header()
+    print_Students(sub_stu_dict)
+
+
 ##################################################################
 
 '''
@@ -95,17 +121,18 @@ def main():
             stu_data[3] == [Final]
             '''
 
-            stu_dict[stu_data[0]] = list(stu_data[1])
+            stu_dict[stu_data[0]] = [stu_data[1]]
             stu_dict[stu_data[0]].append(int(stu_data[2]))
             stu_dict[stu_data[0]].append(int(stu_data[3]))
 
-            average = calc_average(int(stu_data[2]), int(stu_data[3]))
+            average = calc_average(stu_dict[stu_data[0]][1], stu_dict[stu_data[0]][2])
             grade = calc_grade(average)
 
             stu_dict[stu_data[0]].append(average)
             stu_dict[stu_data[0]].append(grade)
 
-            print(stu_dict[stu_data[0]])
+    print_Table(stu_dict)
+
 
 
 
