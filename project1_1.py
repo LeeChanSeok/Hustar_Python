@@ -230,8 +230,27 @@ def searchgrade(stu_dict):
     # 특정 grade에 해당하는 학생을 모두 출력한다.
     print_Table(students)
 
+'''
+6. REMOVE (특정 학생 삭제)
+     remove 입력 시, 아래와 같이 삭제하고자 하는 학생의 학번을 입력 받은 후, 학생이 목록에 있는 경우 삭제한다. 
+    삭제하면, 메시지 “Student removed.”를 아래와 같이 출력한다.
+     예외처리:
+     목록에 아무도 없을 경우 아래의 예제와 같이 “List is empty.” 메시지 출력
+'''
+# 6. REMOVE (특정 학생 삭제)
+def remove(stu_dict):
 
+    if len(stu_dict) == 0 :
+        print("List is empty.")
+        return
 
+    stu_Id = input("Student ID: ")
+    if not is_StuId(stu_Id, stu_dict):
+        print("No SUCH PERSON.")
+        return
+
+    del(stu_dict[stu_Id])
+    print("Student removed.")
 ##################################################################
 
 '''
@@ -339,6 +358,7 @@ def main():
         3. changescore (점수 수정)
         4. add (학생 추가)
         5. searchgrade (Grade 검색)
+        6. remove (특정 학생 삭제)
         '''
 
         if command == 'show':
@@ -351,6 +371,8 @@ def main():
             add(stu_dict)
         elif command == 'searchgrade':
             searchgrade(stu_dict)
+        elif command == 'remove':
+            remove(stu_dict)
 
 
 # main함수가 있으면 main함수를 실행한다.
