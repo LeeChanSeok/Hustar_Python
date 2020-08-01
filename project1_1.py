@@ -195,6 +195,42 @@ def add(stu_dict):
     stu_dict.update(student)
     print("Student added.")
 
+'''
+5. searchgrade (Grade 검색)
+     searchgrade입력 시, 특정 grade를 입력 받아 그 grade에 해당하는 학생을 모두 출력한다.
+     예외처리:
+         A, B, C, D, F 외의 값이 입력된 경우 실행되지 않음.
+         해당 grade 의 학생이 없는 경우 아래와 같이 메시지 “NO RESULTS.” 출력
+'''
+# grade를 입력받아 해당 grade에 해당하는 학생 정보를 딕셔너리에 저장한다.
+def grade_student(grade, stu_dict):
+
+    grade_student = {}
+
+    for key, value in stu_dict.items():
+        if grade in value:
+            grade_student[key] = value
+
+    return grade_student
+
+# 5. searchgrade (Grade 검색)
+def searchgrade(stu_dict):
+    grade_List = ['A', 'B', 'C', 'D', 'F']
+
+    grade = input("Grade to search : ")
+    # A, B, C, D, F 외의 값이 입력된 경우 실행되지 않음.
+    if grade not in grade_List:
+        return
+
+    students = grade_student(grade, stu_dict)
+    # 해당 grade 의 학생이 없는 경우 아래와 같이 메시지 “NO RESULTS.” 출력
+    if len(students) == 0:
+        print("NO RESULTS.")
+        return
+    # 특정 grade에 해당하는 학생을 모두 출력한다.
+    print_Table(students)
+
+
 
 ##################################################################
 
@@ -302,6 +338,7 @@ def main():
         2. search (특정 학생 검색)
         3. changescore (점수 수정)
         4. add (학생 추가)
+        5. searchgrade (Grade 검색)
         '''
 
         if command == 'show':
@@ -312,6 +349,8 @@ def main():
             ChangeScore(stu_dict)
         elif command == 'add':
             add(stu_dict)
+        elif command == 'searchgrade':
+            searchgrade(stu_dict)
 
 
 # main함수가 있으면 main함수를 실행한다.
