@@ -15,7 +15,34 @@
 명시되어 있지 않은 세부사항에 대해서 처리한 방법, 이유 등을 보고서에 기록하도록 한다.
 '''
 
+#함수 구현 부분
+##################################################################
 
+'''
+ 평균(Average)항목은 중간고사 점수와 기말고사 점수의 평균을 계산하여 저장한다.
+ 학점(Grade)항목의 기준은 아래와 같다.
+'''
+def calc_average(mid_score, final_score):
+    return (mid_score + final_score) / 2
+
+def calc_grade(average):
+
+    grade = ''
+
+    if average >= 90:
+        grade = 'A'
+    elif average >= 80:
+        grade = 'B'
+    elif average >= 70:
+        grade = 'C'
+    elif average >= 60:
+        grade = 'D'
+    else:
+        grade = 'F'
+
+    return grade
+
+##################################################################
 
 '''
 (설명)
@@ -43,19 +70,42 @@ def main():
 
     '''
     프로그램 실행 시 텍스트 파일로부터 학생들의 성적 목록 작성을 위한 데이터를 읽는다.
-    각 줄은 각 학생의 학번, 이름, 중간고사 점수, 기말고사 점수로 구성되어 있으며 각 항목 사이는 tab(\t)으로 구분된다.
+    각 줄은 각 학생의 학번, 이름, 중간고사 점수, 기말고사 점수로 구성되어 있으며 
+    각 항목 사이는 tab(\t)으로 구분된다.
      학생과 학생 사이는 줄 바꿈 문자(\n)으로 구분된다.
         Ex. [Student number][\t][Name][\t][Midterm][\t][Final][\n]
-     프로그램을 실행시키면 텍스트 파일로부터 데이터를 읽어 목록을 리스트(list) 자료형 또는 딕셔너리(dict) 자료형을 사용하여 저장하고,
-     전체 목록을 평균 점수를 기준으로 내림차순으로 정렬하여 아래의 예제처럼 출력한다. 동일한 평균 점수를 가진 학생들이 있는 경우 순서는 상관없다.
+     프로그램을 실행시키면 텍스트 파일로부터 데이터를 읽어 
+     목록을 리스트(list) 자료형 또는 딕셔너리(dict) 자료형을 사용하여 저장하고,
+     전체 목록을 평균 점수를 기준으로 내림차순으로 정렬하여 아래의 예제처럼 출력한다. 
+     동일한 평균 점수를 가진 학생들이 있는 경우 순서는 상관없다.
     '''
 
+    #텍스트 파일로부터 읽은 데이터를 딕셔너리 자료형을 사용하여 저장한다.
+    #학생의 학번은 고유한 값이므로 이를 딕셔너리의 Key 값으로 사용한다.
+    stu_dict = {}
     with open(fileName, "r") as fr:
         for line in fr:
             line = line.replace("\n", "")
             stu_data = line.split("\t")
-            print(stu_data)
 
+            '''
+            stu_data[0] == [Student number]
+            stu_data[1] == [Name]
+            stu_data[2] == [Midterm]
+            stu_data[3] == [Final]
+            '''
+
+            stu_dict[stu_data[0]] = list(stu_data[1])
+            stu_dict[stu_data[0]].append(int(stu_data[2]))
+            stu_dict[stu_data[0]].append(int(stu_data[3]))
+
+            average = calc_average(int(stu_data[2]), int(stu_data[3]))
+            grade = calc_grade(average)
+
+            stu_dict[stu_data[0]].append(average)
+            stu_dict[stu_data[0]].append(grade)
+
+            print(stu_dict[stu_data[0]])
 
 
 
