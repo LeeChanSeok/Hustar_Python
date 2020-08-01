@@ -40,7 +40,24 @@ def main():
     except:
         fileName = "students.txt"
 
-    print(fileName)
+
+    '''
+    프로그램 실행 시 텍스트 파일로부터 학생들의 성적 목록 작성을 위한 데이터를 읽는다.
+    각 줄은 각 학생의 학번, 이름, 중간고사 점수, 기말고사 점수로 구성되어 있으며 각 항목 사이는 tab(\t)으로 구분된다.
+     학생과 학생 사이는 줄 바꿈 문자(\n)으로 구분된다.
+        Ex. [Student number][\t][Name][\t][Midterm][\t][Final][\n]
+     프로그램을 실행시키면 텍스트 파일로부터 데이터를 읽어 목록을 리스트(list) 자료형 또는 딕셔너리(dict) 자료형을 사용하여 저장하고,
+     전체 목록을 평균 점수를 기준으로 내림차순으로 정렬하여 아래의 예제처럼 출력한다. 동일한 평균 점수를 가진 학생들이 있는 경우 순서는 상관없다.
+    '''
+
+    with open(fileName, "r") as fr:
+        for line in fr:
+            line = line.replace("\n", "")
+            stu_data = line.split("\t")
+            print(stu_data)
+
+
+
 
 # main함수가 있으면 main함수를 실행한다.
 if __name__ == "__main__":
