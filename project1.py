@@ -393,4 +393,3 @@ def main():
 # main함수가 있으면 main함수를 실행한다.
 if __name__ == "__main__":
     main()
-
