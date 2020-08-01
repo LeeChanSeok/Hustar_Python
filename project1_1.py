@@ -28,8 +28,6 @@ def calc_average(mid_score, final_score):
     return (mid_score + final_score) / 2
 
 def calc_grade(average):
-    grade = ''
-
     if average >= 90:
         grade = 'A'
     elif average >= 80:
@@ -57,9 +55,9 @@ def print_Header():
 
 def print_Students(sub_stu_dict):
     #입력받은 학생 정보 딕셔너리에서 평균 점수( a[1][3])를 기준으로 내림차순(reverse=True)으로 정렬하여 List로 return한다
-    sorted_s1 = sorted(sub_stu_dict.items(), key=lambda a: a[1][3], reverse=True)
+    sorted_stu_dict = sorted(sub_stu_dict.items(), key=lambda a: a[1][3], reverse=True)
 
-    for stu_Info in sorted_s1:
+    for stu_Info in sorted_stu_dict:
         print("%8s\t%15s\t\t%7s\t\t%5s\t\t%8s\t\t%5s" % (
         stu_Info[0], stu_Info[1][0], stu_Info[1][1], stu_Info[1][2], stu_Info[1][3], stu_Info[1][4]))
 
@@ -80,7 +78,7 @@ def print_Table(sub_stu_dict):
 '''
 # 1. show (전체 학생 정보 출력)
 # 입력받은 dict에 저장된 Student 정보들을 출력한다.
-def Show(stu_dict):
+def Show():
     print_Table(stu_dict)
 
 '''
@@ -92,7 +90,7 @@ def Show(stu_dict):
 '''
 # 학번을 입력받아 예외처리하는 기능이 자주 사용됨으로 하나의 함수로 만들어 재사용성을 높이려 하였다.
 # 학번을 입력받아 학생 딕셔너리에 존재하면 True, 존재하지 않으면 False 를 return 한다.
-def is_StuId(stu_Id, stu_dict):
+def is_StuId(stu_Id):
     if stu_Id not in stu_dict:
         return False
     return True
@@ -100,10 +98,10 @@ def is_StuId(stu_Id, stu_dict):
 # 2. search (특정 학생 검색)
 # 입력받은 아이디에 해당하는 학생이 있는 경우, 해당 아아디를 Key값으로 학생의 정보를 담은 딕셔너리를 만든다.
 # 이 딕셔너리를 기존에 학생정보를 출력하기 위해 만들었던 함수에 매개변수로 전달하여 학생정보를 출력한다.
-def Search(stu_dict):
+def Search():
 
     stu_Id = input("Student ID: ")
-    if not is_StuId(stu_Id, stu_dict):
+    if not is_StuId(stu_Id):
         print("No SUCH PERSON.")
         return
 
@@ -124,9 +122,9 @@ def Search(stu_dict):
 '''
 # 3. changescore (점수 수정)
 # 학번, 시험기간, 점수 에 대한 예외 처리 후 학생 점수를 수정하고 평균과 성적 또한 수정한다.
-def ChangeScore(stu_dict):
+def ChangeScore():
     stu_Id = input("Student ID: ")
-    if not is_StuId(stu_Id, stu_dict):
+    if not is_StuId(stu_Id):
         print("No SUCH PERSON.")
         return
 
@@ -172,10 +170,10 @@ def ChangeScore(stu_dict):
      목록에 있는 학생의 학번을 입력 시, ‘ALREADY EXISTS.’ 이라는 에러 메시지 출력
 '''
 # 4. add(학생추가)
-def Add(stu_dict):
+def Add():
     stu_Id = input("Student ID: ")
     # 목록에 있는 학생의 학번을 입력 시, ‘ALREADY EXISTS.’ 이라는 에러 메시지 출력
-    if is_StuId(stu_Id, stu_dict):
+    if is_StuId(stu_Id):
         print("ALREADY EXISTS")
         return
 
@@ -199,7 +197,7 @@ def Add(stu_dict):
          해당 grade 의 학생이 없는 경우 아래와 같이 메시지 “NO RESULTS.” 출력
 '''
 # grade를 입력받아 해당 grade에 해당하는 학생 정보를 딕셔너리에 저장한다.
-def grade_student(grade, stu_dict):
+def grade_student(grade):
     grade_student = {}
 
     for key, value in stu_dict.items():
@@ -209,7 +207,7 @@ def grade_student(grade, stu_dict):
     return grade_student
 
 # 5. searchgrade (Grade 검색)
-def Searchgrade(stu_dict):
+def Searchgrade():
     grade_List = ['A', 'B', 'C', 'D', 'F']
 
     grade = input("Grade to search : ")
@@ -217,7 +215,7 @@ def Searchgrade(stu_dict):
     if grade not in grade_List:
         return
 
-    students = grade_student(grade, stu_dict)
+    students = grade_student(grade)
     # 해당 grade 의 학생이 없는 경우 아래와 같이 메시지 “NO RESULTS.” 출력
     if len(students) == 0:
         print("NO RESULTS.")
@@ -233,14 +231,14 @@ def Searchgrade(stu_dict):
      목록에 아무도 없을 경우 아래의 예제와 같이 “List is empty.” 메시지 출력
 '''
 # 6. REMOVE (특정 학생 삭제)
-def Remove(stu_dict):
+def Remove():
     # 목록에 아무도 없을 경우 아래의 예제와 같이 “List is empty.” 메시지 출력
     if len(stu_dict) == 0 :
         print("List is empty.")
         return
 
     stu_Id = input("Student ID: ")
-    if not is_StuId(stu_Id, stu_dict):
+    if not is_StuId(stu_Id):
         print("No SUCH PERSON.")
         return
 
@@ -258,7 +256,7 @@ def Remove(stu_dict):
      파일 이름에는 공백이 없다고 가정한다.
 '''
 # 7. quit (종료)
-def Quit(stu_dict):
+def Quit():
     save = input("Save data?[yes/no] ").lower()
 
     if save != 'yes':
@@ -267,9 +265,9 @@ def Quit(stu_dict):
     fileName = input("File name: ")
 
     with open(fileName, "w") as fw:
-        sorted_s1 = sorted(stu_dict.items(), key=lambda a: a[1][3], reverse=True)
+        sorted_stu_dict = sorted(stu_dict.items(), key=lambda a: a[1][3], reverse=True)
 
-        for student in sorted_s1:
+        for student in sorted_stu_dict:
             data = "%s\t%s\t%d\t%d\t\n" %(student[0], student[1][0], student[1][1], student[1][2])
             fw.write(data)
 
@@ -312,9 +310,15 @@ def main():
 
     #텍스트 파일로부터 읽은 데이터를 딕셔너리 자료형을 사용하여 저장한다.
     #학생의 학번은 고유한 값이므로 이를 딕셔너리의 Key 값으로 사용한다.
+    global  stu_dict
     stu_dict = {}
     with open(fileName, "r") as fr:
+        # file의 각 줄을 읽어와 변수 line에 저장한다.
+        # file의 마지막 줄까지 읽어오기를 반복한다.
         for line in fr:
+            # line의 마지막 줄바꿈 특수기호인 개행 문자열을('\n') 빈칸으로 바꾼다.
+            # strip() 이용 시 Student Name의 이름과 성 또한 분리하기 떄문에 사용하지 않았다.
+            # 개행 문자열 제거 후 탭키('\t')를 기준으로 각 정보를 분리하여 List 형으로 저장한다.
             line = line.replace("\n", "")
             stu_data = line.split("\t")
 
@@ -371,19 +375,19 @@ def main():
         '''
 
         if command == 'show':
-            Show(stu_dict)
+            Show()
         elif command == 'search':
-            Search(stu_dict)
+            Search()
         elif command == 'changescore':
-            ChangeScore(stu_dict)
+            ChangeScore()
         elif command == 'add':
-            Add(stu_dict)
+            Add()
         elif command == 'searchgrade':
-            Searchgrade(stu_dict)
+            Searchgrade()
         elif command == 'remove':
-            Remove(stu_dict)
+            Remove()
         elif command == 'quit':
-            Quit(stu_dict)
+            Quit()
             break
 
 # main함수가 있으면 main함수를 실행한다.
