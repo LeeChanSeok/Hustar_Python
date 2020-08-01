@@ -94,20 +94,19 @@ def Show(stu_dict):
 '''
 
 # 학번을 입력받아 예외처리하는 기능이 자주 사용됨으로 하나의 함수로 만들어 재사용성을 높이려 하였다.
-# 학번을 입력받아 학생 딕셔너리에 존재하면 학번을 return 하고 아니면 None 을 return 한다.
-def InputStuID(stu_dict):
-    stu_ID = input("Student ID: ")
-
-    if stu_ID not in stu_dict:
-        return
-    return stu_ID
+# 학번을 입력받아 학생 딕셔너리에 존재하면 True, 존재하지 않으면 False 를 return 한다.
+def is_StuID(stu_Id, stu_dict):
+    if stu_Id not in stu_dict:
+        return False
+    return True
 
 # 2. search (특정 학생 검색)
 # 입력받은 아이디에 해당하는 학생이 있는 경우, 해당 아아디를 Key값으로 학생의 정보를 담은 딕셔너리를 만든다.
 # 이 딕셔너리를 기존에 학생정보를 출력하기 위해 만들었던 함수에 매개변수로 전달하여 학생정보를 출력한다.
 def Search(stu_dict):
-    stu_ID = InputStuID(stu_dict)
-    if stu_ID == None:
+
+    stu_ID = input("Student ID: ")
+    if not is_StuID(stu_ID, stu_dict):
         print("No SUCH PERSON.")
         return
 
@@ -127,13 +126,10 @@ def Search(stu_dict):
          점수에 0~100 외의 값이 입력된 경우에는 실행되지 않음
 '''
 # 3. changescore (점수 수정)
-
+# 학번, 시험기간, 점수 에 대한 예외 처리 후 학생 점수를 수정하고 평균과 성적 또한 수정한다.
 def ChangeScore(stu_dict):
-    # InputStuID(stu_dict)
-
-    stu_ID = InputStuID(stu_dict)
-    # 학번이 목록에 없는 경우에는 “NO SUCH PERSON.”이라는 에러 메시지를 출력
-    if stu_ID == None:
+    stu_ID = input("Student ID: ")
+    if not is_StuID(stu_ID, stu_dict):
         print("No SUCH PERSON.")
         return
 
@@ -168,6 +164,24 @@ def ChangeScore(stu_dict):
     change_student = {}
     change_student[stu_ID] = stu_dict[stu_ID]
     print_Students(change_student)
+
+
+'''
+4. add (학생 추가)
+     add 입력 시, 아래와 같이 학생의 학번, 이름, 중간고사 점수, 기말고사 점수를 차례로 요구해 입력 받는다. 
+    추가되면, 메시지 “Student added.”를 아래 예제와 같이 출력한다.
+     Average와 Grade는 중간고사 점수와 기말고사 점수를 사용하여 계산하여 저장한다.
+     학생 추가 후 show 명령어를 사용하면 평균을 기준으로 내림차순으로 출력된다.
+     에러처리:
+     목록에 있는 학생의 학번을 입력 시, ‘ALREADY EXISTS.’ 이라는 에러 메시지 출력
+'''
+# 4. add(학생추가)
+def add(stu_dict):
+    stu_ID = InputStuID(stu_dict)
+    # 학번이 목록에 없는 경우에는 “NO SUCH PERSON.”이라는 에러 메시지를 출력
+    if stu_ID != None:
+        print("No SUCH PERSON.")
+        return
 
 ##################################################################
 
@@ -207,6 +221,7 @@ def main():
      동일한 평균 점수를 가진 학생들이 있는 경우 순서는 상관없다.
     '''
 
+
     #텍스트 파일로부터 읽은 데이터를 딕셔너리 자료형을 사용하여 저장한다.
     #학생의 학번은 고유한 값이므로 이를 딕셔너리의 Key 값으로 사용한다.
     stu_dict = {}
@@ -222,6 +237,18 @@ def main():
             stu_data[3] == [Final]
             '''
 
+            stu_Id = stu_data[0]
+            stu_Name = stu_data[1]
+            midTerm_Score = int(stu_data[2])
+            finalTerm_Score = int(stu_data[3])
+            average = calc_average(midTerm_Score, finalTerm_Score)
+            grade = calc_grade(average)
+
+            student = {}
+            student[stu_Id] = [stu_Name, midTerm_Score, finalTerm_Score, average, grade]
+
+            stu_dict.update(student)
+            '''
             stu_dict[stu_data[0]] = [stu_data[1]]
             stu_dict[stu_data[0]].append(int(stu_data[2]))
             stu_dict[stu_data[0]].append(int(stu_data[3]))
@@ -231,6 +258,7 @@ def main():
 
             stu_dict[stu_data[0]].append(average)
             stu_dict[stu_data[0]].append(grade)
+            '''
 
     print_Table(stu_dict)
 
@@ -260,6 +288,7 @@ def main():
         1. show (전체 학생 정보 출력) 
         2. search (특정 학생 검색)
         3. changescore (점수 수정)
+        4. add (학생 추가)
         '''
 
         if command == 'show':
@@ -268,6 +297,8 @@ def main():
             Search(stu_dict)
         elif command == 'changescore':
             ChangeScore(stu_dict)
+        elif command == 'add':
+            add(stu_dict)
 
 
 # main함수가 있으면 main함수를 실행한다.
