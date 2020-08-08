@@ -77,7 +77,7 @@ class StudentMgr:
         show_List = ['Student', 'Name', 'Midterm', 'Final', 'Average', 'Grade']
         print("%8s\t%15s\t\t%7s\t\t%5s\t\t%8s\t\t%5s" % (
             show_List[0], show_List[1], show_List[2], show_List[3], show_List[4], show_List[5]))
-        print("-" * 80)
+        print("-" * 100)
 
     def print_Students(self, sub_student):
         # 입력받은 학생 정보 딕셔너리에서 평균 점수( a[1][3])를 기준으로 내림차순(reverse=True)으로 정렬하여 List로 return한다
@@ -104,8 +104,8 @@ class StudentMgr:
 
     # 1. show (전체 학생 정보 출력)
     # 입력받은 dict에 저장된 Student 정보들을 출력한다.
-    def Show(self, sub_student):
-        self.print_Table(sub_student)
+    def Show(self):
+        self.print_Table(self.students)
 
     '''
      2. search (특정 학생 검색)
@@ -155,7 +155,6 @@ class StudentMgr:
             return False
         return True
 
-
     # 3. changescore (점수 수정)
     # 학번, 시험기간, 점수 에 대한 예외 처리 후 학생 점수를 수정하고 평균과 성적 또한 수정한다.
     def ChangeScore(self):
@@ -164,7 +163,7 @@ class StudentMgr:
             print("No SUCH PERSON.")
             return
 
-        Term_dict = {'mid': 1, 'final': 2}
+        Term_dict = ['mid','final']
         term = input("Mid/Final? ").lower()
 
         # “mid” 또는 “final” 외의 값이 입력된 경우에는 실행되지 않음
@@ -172,10 +171,7 @@ class StudentMgr:
             return
         # 점수에 0~100 외의 값이 입력된 경우에는 실행되지 않음
         score = int(input("Input new score: "))
-        if self.in_Score(score):
-            return
-
-        if score < 0 or score > 100:
+        if not self.in_Score(score):
             return
 
         # 수정되기 전의 학생 정보를 출력하기 전에 딕셔너리에 현재의 값을 저장하고 출력한다
@@ -215,13 +211,14 @@ class StudentMgr:
             return
 
         stu_Name = input("Name: ")
+
         # 입력받은 점수가 0~100사이의 점수인지 확인한다
         midTerm_Score = int(input("Midterm Score: "))
         if not self.in_Score(midTerm_Score):
             print("해당 점수가 범위(0~100)를 벗어났습니다")
             return
-        finalTerm_Score = int(input("Final Score: "))
 
+        finalTerm_Score = int(input("Final Score: "))
         if not self.in_Score(finalTerm_Score):
             print("해당 점수가 범위(0~100)를 벗어났습니다")
             return
@@ -238,7 +235,6 @@ class StudentMgr:
              A, B, C, D, F 외의 값이 입력된 경우 실행되지 않음.
              해당 grade 의 학생이 없는 경우 아래와 같이 메시지 “NO RESULTS.” 출력
     '''
-
     # grade를 입력받아 해당 grade에 해당하는 학생 정보를 딕셔너리에 저장한다.
     def grade_student(self, grade):
         grade_student = {}
@@ -250,7 +246,7 @@ class StudentMgr:
         return grade_student
 
     # 5. searchgrade (Grade 검색)
-    def Searchgrade(self):
+    def SearchGrade(self):
         grade_List = ['A', 'B', 'C', 'D', 'F']
 
         grade = input("Grade to search : ")
@@ -273,10 +269,6 @@ class StudentMgr:
          예외처리:
          목록에 아무도 없을 경우 아래의 예제와 같이 “List is empty.” 메시지 출력
     '''
-
-    #
-
-
     # 6. REMOVE (특정 학생 삭제)
     def Remove(self):
         # 목록에 아무도 없을 경우 아래의 예제와 같이 “List is empty.” 메시지 출력
@@ -351,7 +343,6 @@ def main():
      전체 목록을 평균 점수를 기준으로 내림차순으로 정렬하여 아래의 예제처럼 출력한다. 
      동일한 평균 점수를 가진 학생들이 있는 경우 순서는 상관없다.
     '''
-
     #텍스트 파일로부터 읽은 데이터를 딕셔너리 자료형을 사용하여 저장한다.
     #학생의 학번은 고유한 값이므로 이를 딕셔너리의 Key 값으로 사용한다.
     global studentsMgr
@@ -413,7 +404,7 @@ def main():
         '''
 
         if command == 'show':
-            studentsMgr.Show(studentsMgr.students)
+            studentsMgr.Show()
         elif command == 'search':
             studentsMgr.Search()
         elif command == 'changescore':
@@ -421,7 +412,7 @@ def main():
         elif command == 'add':
             studentsMgr.Add()
         elif command == 'searchgrade':
-            studentsMgr.Searchgrade()
+            studentsMgr.SearchGrade()
         elif command == 'remove':
             studentsMgr.Remove()
         elif command == 'quit':
